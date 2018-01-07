@@ -99,8 +99,4 @@ const options = {
     ],
 };
 
-// If (env.NODE_ENV === "development") {
-options.devtool = 'eval-source-map';
-// }
-
 module.exports = options;

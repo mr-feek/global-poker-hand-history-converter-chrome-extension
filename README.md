@@ -10,3 +10,8 @@ coming soon...
 Login to global poker and navigate to Profile > Hand History. You will see a new piece of UI inserted on the page which will enable you to download the converted hand histories.
 
 Image coming soon...
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/mr-feek/global-poker-hand-history-converter-chrome-extension/badge.svg?style=beer-square)](https://beerpay.io/mr-feek/global-poker-hand-history-converter-chrome-extension)  [![Beerpay](https://beerpay.io/mr-feek/global-poker-hand-history-converter-chrome-extension/make-wish.svg?style=flat-square)](https://beerpay.io/mr-feek/global-poker-hand-history-converter-chrome-extension?focus=wish)

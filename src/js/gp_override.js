@@ -34,7 +34,7 @@ import $ from 'zepto';
         $('.js-hc-spinning').show();
         const handsToFetch = $('.js-hc-hands').val() || 100;
 
-        chrome.runtime.sendMessage({action: 'hc.convertHands', options: {handsToFetch}}, (response) => {
+        chrome.runtime.sendMessage({action: 'hc.convertHands', options: {handsToFetch}}, response => {
             $('.js-hc-spinning').hide();
 
             if (!response.success) {

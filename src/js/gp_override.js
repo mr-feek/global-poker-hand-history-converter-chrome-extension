@@ -10,10 +10,12 @@ import bugsnagClient from './bugsnagClient';
     <a class="button js-hc-convert">DOWNLOAD IN POKER STARS FORMAT</a>\
     <p>Status: <span class="js-hc-status"></span></p>\
     <div class="js-hc-spinning" style="display:none"><img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" /></div>\
+    \<textarea class="js-hc-log" style="width:100%;height:120px;color: #fff;background-color: #333;border: 1px solid #666;"></textarea>\
 </div>';
 
     let $historyDateContainer;
     let $statusContainer;
+    let $logContainer;
 
     setInterval(() => {
         if ($('.converter-plugin-area').length > 0) {
@@ -32,6 +34,7 @@ import bugsnagClient from './bugsnagClient';
 
         $('.js-hc-convert').click(onClickDownload);
         $statusContainer = $('.js-hc-status');
+        $logContainer = $('.js-hc-log');
     }
 
     function onClickDownload() {
@@ -51,12 +54,10 @@ import bugsnagClient from './bugsnagClient';
     }
 
     window.chrome.runtime.onConnect.addListener((port) => {
-        console.log('received connection');
-
         port.onMessage.addListener((data) => {
-            console.log('received message ' + data.message);
             if (data.action === 'hc.updateStatus') {
                 $statusContainer.html(data.message);
+                $logContainer.append(`${data.message}\n`);
             }
         });
     });

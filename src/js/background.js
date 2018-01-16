@@ -73,7 +73,7 @@ function fetchAndConvertHands(numberOfHandsToFetch, success, failure) {
 
         let count = 1;
         const converted = hands.map(handHistoryBlob => {
-            let convertedHand = convertHand(new GlobalPokerHand(handHistoryBlob));
+            const convertedHand = convertHand(new GlobalPokerHand(handHistoryBlob));
             updateStatus(`Converted hand ${count} of ${hands.length}`);
             count++;
             return convertedHand;
@@ -121,13 +121,13 @@ function getHands(session, playerId, hands, numberOfHandsToFetch, done) {
 function updateStatus(message) {
     port.postMessage({
         action: 'hc.updateStatus',
-        message
+        message,
     });
 }
 
 function initializePort() {
     return new Promise((resolve, reject) => {
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
             if (!tabs.length) {
                 return reject();
             }

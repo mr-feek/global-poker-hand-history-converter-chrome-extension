@@ -1,4 +1,5 @@
 import $ from 'zepto';
+import bugsnagClient from './bugsnagClient';
 
 (() => {
     const template = '\
@@ -34,7 +35,7 @@ import $ from 'zepto';
         $('.js-hc-spinning').show();
         const handsToFetch = $('.js-hc-hands').val() || 100;
 
-        chrome.runtime.sendMessage({action: 'hc.convertHands', options: {handsToFetch}}, response => {
+        window.chrome.runtime.sendMessage({action: 'hc.convertHands', options: {handsToFetch}}, response => {
             $('.js-hc-spinning').hide();
 
             if (!response.success) {

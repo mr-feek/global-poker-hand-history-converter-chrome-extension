@@ -4,6 +4,7 @@ import '../img/icon-34.png';
 import {convertHand} from '@mr-feek/global-poker-hand-history-converter/src/Converter';
 import GlobalPokerHand from '@mr-feek/global-poker-hand-history-converter/src/GlobalPokerHand';
 import {getParams} from './utils';
+import bugsnagClient from './bugsnagClient';
 
 let latestHandStartTime; // Time of last hand that was played. Used for fetching the first batch of hand histories
 let session;

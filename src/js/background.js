@@ -9,6 +9,7 @@ import bugsnagClient from './bugsnagClient';
 let latestHandStartTime; // Time of last hand that was played. Used for fetching the first batch of hand histories
 let session;
 let playerId;
+let port;
 
 chrome.webRequest.onBeforeSendHeaders.addListener(details => {
     // Save these so that we can reuse them when issuing our own XHR
@@ -19,16 +20,20 @@ chrome.webRequest.onBeforeSendHeaders.addListener(details => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'hc.convertHands') {
-        determineLatestHandStartTime().then(() => {
-            fetchAndConvertHands(
-                request.options.handsToFetch,
-                data => {
-                    sendResponse({success: true, data});
-                },
-                data => {
-                    sendResponse({success: false, data});
-                }
-            );
+        initializePort().then(() => {
+            determineLatestHandStartTime().then(() => {
+                updateStatus(`last played hand: ${latestHandStartTime}`);
+
+                fetchAndConvertHands(
+                    request.options.handsToFetch,
+                    data => {
+                        sendResponse({success: true, data});
+                    },
+                    data => {
+                        sendResponse({success: false, data});
+                    }
+                );
+            });
         });
     }
 
@@ -37,6 +42,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // Sets the global latestHandStartTime to be used in the first request for fetching hand histories from the API
 function determineLatestHandStartTime() {
+    updateStatus('Fetching last played hand');
+
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=0&startTime=0&descending=true&session=${session}&playerId=${playerId}&r=${Math.random()}`;
@@ -62,9 +69,14 @@ function fetchAndConvertHands(numberOfHandsToFetch, success, failure) {
     const failureCallback = failure;
 
     getHands(session, playerId, [], numberOfHandsToFetch, hands => {
-        console.log('hands finished being fetched. now converting to pokerstars format');
+        updateStatus('Finished fetching hands. Now converting to poker stars format for download.');
+
+        let count = 1;
         const converted = hands.map(handHistoryBlob => {
-            return convertHand(new GlobalPokerHand(handHistoryBlob));
+            let convertedHand = convertHand(new GlobalPokerHand(handHistoryBlob));
+            updateStatus(`Converted hand ${count} of ${hands.length}`);
+            count++;
+            return convertedHand;
         });
 
         const blob = new Blob([converted.join('\n\n\n')], {type: 'text/plain'});
@@ -98,8 +110,29 @@ function getHands(session, playerId, hands, numberOfHandsToFetch, done) {
 
         hands.push(...data.hands);
 
+        updateStatus(`Fetched ${hands.length} hands.`);
+
         return getHands(session, playerId, hands, numberOfHandsToFetch, done);
     };
 
     xhr.send(null);
+}
+
+function updateStatus(message) {
+    port.postMessage({
+        action: 'hc.updateStatus',
+        message
+    });
+}
+
+function initializePort() {
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            if (!tabs.length) {
+                return reject();
+            }
+            port = window.chrome.tabs.connect(tabs[0].id);
+            return resolve(port);
+        });
+    });
 }

@@ -33,7 +33,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         sendResponse({success: false, data});
                     }
                 );
+            }, (error) => {
+                sendResponse({success: false, message: error});
             });
+        }, (error) => {
+            sendResponse({success: false, message: error});
         });
     }
 
@@ -53,11 +57,16 @@ function determineLatestHandStartTime() {
             const data = JSON.parse(xhr.response);
 
             if (!data || !data.latestHandStartTime) {
-                return reject();
+                return reject(data);
             }
 
             latestHandStartTime = data.latestHandStartTime;
             return resolve();
+        };
+
+        xhr.onerror = function () {
+            const data = JSON.parse(xhr.response);
+            return reject(data)
         };
 
         xhr.send(null);

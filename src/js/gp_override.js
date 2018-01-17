@@ -49,6 +49,7 @@ import bugsnagClient from './bugsnagClient';
             } else {
                 $statusContainer.html('Failure');
                 alert('Something went wrong. Please open an issue at https://github.com/mr-feek/global-poker-hand-history-converter/issues.');
+                $logContainer.append(JSON.stringify(response));
             }
         });
     }

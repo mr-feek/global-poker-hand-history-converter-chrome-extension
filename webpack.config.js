@@ -25,15 +25,16 @@ const options = {
         options: path.join(__dirname, 'src', 'js', 'options.js'),
         background: path.join(__dirname, 'src', 'js', 'background.js'),
     },
-    chromeExtensionBoilerplate: {
-        notHotReload: ['gp_override'],
-    },
     output: {
         path: path.join(__dirname, 'build'),
         filename: '[name].bundle.js',
     },
     module: {
         rules: [
+            {
+                test: /\.js|$/,
+                loader: 'babel-loader',
+            },
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
@@ -59,8 +60,9 @@ const options = {
         alias,
         modules: [
             path.resolve('./node_modules'),
-            path.resolve('./js'),
+            path.resolve('./src/js'),
         ],
+        extensions: fileExtensions.map(extension => ("." + extension)).concat([".jsx", ".js", ".css"])
     },
     plugins: [
     // Clean the build folder
@@ -72,7 +74,7 @@ const options = {
         new CopyWebpackPlugin([{
             from: 'src/manifest.json',
             transform(content, path) {
-        // Generates the manifest file using the package.json informations
+                // Generates the manifest file using the package.json informations
                 return Buffer.from(JSON.stringify({
                     description: process.env.npm_package_description,
                     version: process.env.npm_package_version,

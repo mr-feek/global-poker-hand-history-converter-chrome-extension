@@ -6,7 +6,6 @@ import GlobalPokerHand from '@mr-feek/global-poker-hand-history-converter/src/Gl
 import {getParams} from './utils';
 import bugsnagClient from './bugsnagClient';
 
-let latestHandStartTime; // Time of last hand that was played. Used for fetching the first batch of hand histories
 let session;
 let playerId;
 let port;
@@ -21,21 +20,16 @@ chrome.webRequest.onBeforeSendHeaders.addListener(details => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'hc.convertHands') {
         initializePort().then(() => {
-            determineLatestHandStartTime().then(() => {
-                updateStatus(`last played hand: ${latestHandStartTime}`);
-
-                fetchAndConvertHands(
-                    request.options.handsToFetch,
-                    data => {
-                        sendResponse({success: true, data});
-                    },
-                    data => {
-                        sendResponse({success: false, data});
-                    }
-                );
-            }, (error) => {
-                sendResponse({success: false, message: error});
-            });
+            updateStatus('port initialized.');
+            fetchAndConvertHands(
+                request.options.startTime,
+                data => {
+                    sendResponse({success: true, data});
+                },
+                data => {
+                    sendResponse({success: false, data});
+                }
+            );
         }, (error) => {
             sendResponse({success: false, message: error});
         });
@@ -44,42 +38,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
 });
 
-// Sets the global latestHandStartTime to be used in the first request for fetching hand histories from the API
-function determineLatestHandStartTime() {
-    updateStatus('Fetching last played hand');
-
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=20&startTime=0&descending=true&session=${session}&playerId=${playerId}&r=${Math.random()}`;
-        xhr.open('GET', url, true);
-
-        xhr.onload = function () {
-            updateStatus('completed xhr for fetching last hand start time');
-            const data = JSON.parse(xhr.response);
-
-            if (!data || !data.latestHandStartTime) {
-                return reject(data);
-            }
-
-            latestHandStartTime = data.latestHandStartTime;
-            return resolve();
-        };
-
-        xhr.onerror = function () {
-            updateStatus('failed fetching last hand start time.');
-            const data = JSON.parse(xhr.response);
-            return reject(data)
-        };
-
-        xhr.send(null);
-    });
-}
-
-function fetchAndConvertHands(numberOfHandsToFetch, success, failure) {
+function fetchAndConvertHands(startTime, success, failure) {
     const successCallback = success;
     const failureCallback = failure;
 
-    getHands(session, playerId, [], numberOfHandsToFetch, hands => {
+    updateStatus('beginning fetching hands');
+
+    getHands(session, playerId, [], startTime, hands => {
         updateStatus('Finished fetching hands. Now converting to poker stars format for download.');
 
         let count = 1;
@@ -97,18 +62,14 @@ function fetchAndConvertHands(numberOfHandsToFetch, success, failure) {
     });
 }
 
-function getHands(session, playerId, hands, numberOfHandsToFetch, done) {
-    if (hands.length >= numberOfHandsToFetch) {
-        return done(hands);
-    }
-
-    const count = 50;
+function getHands(session, playerId, hands, startTime, done) {
+    const count = 20;
     const lastHand = hands[hands.length - 1];
 
-    const startTime = lastHand ? lastHand.startTime - 1 : latestHandStartTime;
+    startTime = lastHand ? lastHand.startTime + 1 : startTime;
 
     const xhr = new XMLHttpRequest();
-    const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=${count}&startTime=${startTime}&descending=true&session=${session}&playerId=${playerId}&r=${Math.random()}`;
+    const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=${count}&startTime=${startTime}&descending=false&session=${session}&playerId=${playerId}&r=${Math.random()}`;
 
     xhr.open('GET', url, true);
 
@@ -123,7 +84,7 @@ function getHands(session, playerId, hands, numberOfHandsToFetch, done) {
 
         updateStatus(`Fetched ${hands.length} hands.`);
 
-        return getHands(session, playerId, hands, numberOfHandsToFetch, done);
+        return getHands(session, playerId, hands, null, done);
     };
 
     xhr.send(null);

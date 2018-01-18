@@ -5,8 +5,8 @@ import bugsnagClient from './bugsnagClient';
     const template = '\
 <div class="row converter-plugin-area" style="text-align:center">\
     <h3>HAND CONVERTER PLUGIN AREA</h3>\
-    <label>Hands to download, starting with the most recent first (multiples of 50)</label>\
-    <input type="number" class="form-control js-hc-hands" value="100" />\
+    <label>Download all hands since this date</label>\
+    <input type="datetime-local" class="js-hc-start-time"/>\
     <a class="button js-hc-convert" style="margin:1rem">DOWNLOAD IN POKER STARS FORMAT</a>\
     <p>Status: <span class="js-hc-status"></span></p>\
     <div class="js-hc-spinning" style="display:none"><img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" /></div>\
@@ -16,6 +16,7 @@ import bugsnagClient from './bugsnagClient';
     let $historyDateContainer;
     let $statusContainer;
     let $logContainer;
+    let $startTimeContainer;
 
     setInterval(() => {
         if ($('.converter-plugin-area').length > 0) {
@@ -35,13 +36,18 @@ import bugsnagClient from './bugsnagClient';
         $('.js-hc-convert').click(onClickDownload);
         $statusContainer = $('.js-hc-status');
         $logContainer = $('.js-hc-log');
+        $startTimeContainer = $('.js-hc-start-time');
+
+        let now = new Date();
+
+        $startTimeContainer.val(new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().substring(0,19));
     }
 
     function onClickDownload() {
         $('.js-hc-spinning').show();
-        const handsToFetch = $('.js-hc-hands').val() || 100;
+        const startTime = new Date($startTimeContainer.val()).getTime();
 
-        window.chrome.runtime.sendMessage({action: 'hc.convertHands', options: {handsToFetch}}, response => {
+        window.chrome.runtime.sendMessage({action: 'hc.convertHands', options: {startTime}}, response => {
             $('.js-hc-spinning').hide();
 
             if (response && response.success) {

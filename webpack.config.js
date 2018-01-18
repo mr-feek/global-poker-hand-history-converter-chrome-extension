@@ -83,7 +83,7 @@ const options = {
             },
         }]),
         new CopyWebpackPlugin([{
-            from: 'src/css',
+            from: 'node_modules/flatpickr/dist/themes/dark.css',
         }]),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'popup.html'),

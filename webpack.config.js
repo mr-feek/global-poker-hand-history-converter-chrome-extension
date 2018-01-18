@@ -82,6 +82,9 @@ const options = {
                 }));
             },
         }]),
+        new CopyWebpackPlugin([{
+            from: 'src/css',
+        }]),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'popup.html'),
             filename: 'popup.html',

@@ -1,12 +1,13 @@
 import $ from 'zepto';
 import bugsnagClient from './bugsnagClient';
+import flatpickr from "flatpickr";
 
 (() => {
     const template = '\
 <div class="row converter-plugin-area" style="text-align:center">\
     <h3>HAND CONVERTER PLUGIN AREA</h3>\
     <label>Download all hands since this date</label>\
-    <input type="datetime-local" class="js-hc-start-time"/>\
+    <input class="js-hc-start-time" />\
     <a class="button js-hc-convert" style="margin:1rem">DOWNLOAD IN POKER STARS FORMAT</a>\
     <p>Status: <span class="js-hc-status"></span></p>\
     <div class="js-hc-spinning" style="display:none"><img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" /></div>\
@@ -38,9 +39,9 @@ import bugsnagClient from './bugsnagClient';
         $logContainer = $('.js-hc-log');
         $startTimeContainer = $('.js-hc-start-time');
 
-        let now = new Date();
-
-        $startTimeContainer.val(new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().substring(0,19));
+        flatpickr('.js-hc-start-time', {
+            defaultDate: new Date(),
+        });
     }
 
     function onClickDownload() {

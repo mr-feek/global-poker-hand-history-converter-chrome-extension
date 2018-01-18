@@ -50,10 +50,11 @@ function determineLatestHandStartTime() {
 
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=0&startTime=0&descending=true&session=${session}&playerId=${playerId}&r=${Math.random()}`;
+        const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=20&startTime=0&descending=true&session=${session}&playerId=${playerId}&r=${Math.random()}`;
         xhr.open('GET', url, true);
 
         xhr.onload = function () {
+            updateStatus('completed xhr for fetching last hand start time');
             const data = JSON.parse(xhr.response);
 
             if (!data || !data.latestHandStartTime) {
@@ -65,6 +66,7 @@ function determineLatestHandStartTime() {
         };
 
         xhr.onerror = function () {
+            updateStatus('failed fetching last hand start time.');
             const data = JSON.parse(xhr.response);
             return reject(data)
         };

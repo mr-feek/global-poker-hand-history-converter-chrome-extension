@@ -36,6 +36,10 @@ const options = {
                 loader: 'babel-loader',
             },
             {
+                test: /\.json$/,
+                loader: "json-loader"
+            },
+            {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
                 exclude: /node_modules/,
@@ -62,7 +66,7 @@ const options = {
             path.resolve('./node_modules'),
             path.resolve('./src/js'),
         ],
-        extensions: fileExtensions.map(extension => ("." + extension)).concat([".jsx", ".js", ".css"])
+        extensions: fileExtensions.map(extension => ("." + extension)).concat([".jsx", ".json", ".js", ".css"])
     },
     plugins: [
     // Clean the build folder

@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@mr-feek/global-poker-hand-history-converter@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@mr-feek/global-poker-hand-history-converter/-/global-poker-hand-history-converter-0.0.5.tgz#65a9c703ce6c979e3d31e3ce4f27075de1a1536c"
+"@mr-feek/global-poker-hand-history-converter@mr-feek/global-poker-hand-history-converter":
+  version "0.0.8"
+  resolved "https://codeload.github.com/mr-feek/global-poker-hand-history-converter/tar.gz/fdf3b4d198aa767392f432225c71a710987d7efc"
   dependencies:
     moment "^2.20.1"
     moment-timezone "^0.5.14"
@@ -1056,8 +1056,8 @@ buffer@^4.3.0:
     isarray "^1.0.0"
 
 bugsnag-js@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/bugsnag-js/-/bugsnag-js-4.1.3.tgz#70a676afc854b59639195a6b8beef831f7c1b671"
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/bugsnag-js/-/bugsnag-js-4.2.0.tgz#e7b2e810fe5b1926ab0188aaf31fc9a6ded665b4"
   dependencies:
     browserify-versionify "^1.0.6"
     cuid "^1.3.8"
@@ -1160,8 +1160,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000793"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000793.tgz#3c00c66e423a7a1907c7dd96769a78b2afa8a72e"
+  version "1.0.30000794"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000794.tgz#bbe71104fa277ce4b362387d54905e8b88e52f35"
 
 caniuse-lite@^1.0.30000792:
   version "1.0.30000792"
@@ -3537,8 +3537,8 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
 js-base64@^2.1.9:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.1.tgz#e02813181cd53002888e918935467acb2910e596"
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.2.tgz#1896da010ef8862f385d8887648e9b6dc4a7a2e9"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -4012,8 +4012,8 @@ minimist@^1.1.3, minimist@^1.2.0:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
 mississippi@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/mississippi/-/mississippi-1.3.0.tgz#d201583eb12327e3c5c1642a404a9cacf94e34f5"
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/mississippi/-/mississippi-1.3.1.tgz#2a8bb465e86550ac8b36a7b6f45599171d78671e"
   dependencies:
     concat-stream "^1.5.0"
     duplexify "^3.4.2"
@@ -5902,8 +5902,8 @@ timed-out@^4.0.0:
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
 
 timers-browserify@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.4.tgz#96ca53f4b794a5e7c0e1bd7cc88a372298fa01e6"
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.6.tgz#241e76927d9ca05f4d959819022f5b3664b64bae"
   dependencies:
     setimmediate "^1.0.4"
 

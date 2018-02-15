@@ -3,8 +3,8 @@
 
 
 "@mr-feek/global-poker-hand-history-converter@mr-feek/global-poker-hand-history-converter":
-  version "0.0.10"
-  resolved "https://codeload.github.com/mr-feek/global-poker-hand-history-converter/tar.gz/63e798a2f53b98afe26c8b425f37ec1f0d695c77"
+  version "0.1.0"
+  resolved "https://codeload.github.com/mr-feek/global-poker-hand-history-converter/tar.gz/e15246990f5e7834a42e0dcd2753b496d047e719"
   dependencies:
     moment "^2.20.1"
     moment-timezone "^0.5.14"

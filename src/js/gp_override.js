@@ -31,7 +31,7 @@ import flatpickr from "flatpickr";
         }
     }, 1000);
     function isHandHistoryMenu() {
-      if ($('.k_c.skin__cell-header').text().includes('Hand History')){
+      if ($('.k_c.skin__cell-header').length > 0 && $('.k_c.skin__cell-header').text().includes('Hand History')){
         return $('.skin__cell.q_c');
       }
       return undefined

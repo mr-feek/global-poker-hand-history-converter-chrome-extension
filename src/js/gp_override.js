@@ -14,7 +14,6 @@ import flatpickr from "flatpickr";
     <textarea class="js-hc-log" style="width:95%;height:120px;color: #fff;background-color: #333;border: 1px solid #666;"></textarea>\
 </div>';
 
-    let $historyDateContainer;
     let $statusContainer;
     let $logContainer;
     let $startTimeContainer;
@@ -25,19 +24,26 @@ import flatpickr from "flatpickr";
             // We have already initialized
             return;
         }
-        $historyDateContainer = isHandHistoryMenu();
-        if ($historyDateContainer) {
-            initialize();
-        }
+        isHandHistoryMenu(initialize);
+
     }, 1000);
-    function isHandHistoryMenu() {
-      if ($('.k_c.skin__cell-header').length > 0 && $('.k_c.skin__cell-header').text().includes('Hand History')){
-        return $('.skin__cell.q_c');
+    function isHandHistoryMenu(callback) {
+      var buttons = $('.skin__table-row.skin__primary-button.active');
+      if (buttons.length > 0 && buttons.text().includes('Hand History')){
+        $('.skin__title').each(function(index , item){
+              let selector = $(item);
+              if (selector.text().includes('Hand Range')){
+                callback(selector.closest('.skin__cell').first());
+              }
+          });
       }
-      return undefined
+      return callback(undefined);
     }
-    function initialize() {
-        $historyDateContainer.after(template);
+    function initialize(historyDateContainer) {
+
+        if (!historyDateContainer){return}
+
+        historyDateContainer.after(template);
 
         $('.js-hc-convert').click(onClickDownload);
         $statusContainer = $('.js-hc-status');

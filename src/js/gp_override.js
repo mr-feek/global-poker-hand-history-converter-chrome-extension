@@ -8,31 +8,42 @@ import flatpickr from "flatpickr";
     <h3>HAND CONVERTER PLUGIN AREA</h3>\
     <label>Download all hands since this date</label>\
     <input class="js-hc-start-time" />\
-    <a class="button js-hc-convert" style="margin:1rem">DOWNLOAD IN POKER STARS FORMAT</a>\
+    <a class="skin__primary-button skin__body js-hc-convert" style="margin:1rem">DOWNLOAD IN PS FORMAT</a>\
     <p>Status: <span class="js-hc-status"></span></p>\
     <div class="js-hc-spinning" style="display:none"><img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" /></div>\
-    <textarea class="js-hc-log" style="width:100%;height:120px;color: #fff;background-color: #333;border: 1px solid #666;"></textarea>\
+    <textarea class="js-hc-log" style="width:95%;height:120px;color: #fff;background-color: #333;border: 1px solid #666;"></textarea>\
 </div>';
 
-    let $historyDateContainer;
     let $statusContainer;
     let $logContainer;
     let $startTimeContainer;
+
 
     setInterval(() => {
         if ($('.converter-plugin-area').length > 0) {
             // We have already initialized
             return;
         }
+        isHandHistoryMenu(initialize);
 
-        $historyDateContainer = $('.history-date-container');
-        if ($historyDateContainer.length > 0) {
-            initialize();
-        }
     }, 1000);
+    function isHandHistoryMenu(callback) {
+      var buttons = $('.skin__table-row.skin__primary-button.active');
+      if (buttons.length > 0 && buttons.text().includes('Hand History')){
+        $('.skin__title').each(function(index , item){
+              let selector = $(item);
+              if (selector.text().includes('Hand Range')){
+                callback(selector.closest('.skin__cell').first());
+              }
+          });
+      }
+      return callback(undefined);
+    }
+    function initialize(historyDateContainer) {
 
-    function initialize() {
-        $historyDateContainer.append(template);
+        if (!historyDateContainer){return}
+
+        historyDateContainer.after(template);
 
         $('.js-hc-convert').click(onClickDownload);
         $statusContainer = $('.js-hc-status');
@@ -70,4 +81,3 @@ import flatpickr from "flatpickr";
         });
     });
 })();
-

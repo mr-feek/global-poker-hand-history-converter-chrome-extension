@@ -12,7 +12,7 @@ Pre reqs to install:
 - Node: https://nodejs.org/en/
 - Yarn: https://yarnpkg.com/lang/en/docs/install/#windows-stable
 
-
+Steps:
 
 - clone this repository `git clone https://github.com/mr-feek/global-poker-hand-history-converter-chrome-extension.git`
 - `cd global-poker-hand-history-converter-chrome-extension`

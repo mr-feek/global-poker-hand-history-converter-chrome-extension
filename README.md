@@ -7,6 +7,13 @@ This repository holds the source code for the chrome extension. The source code 
 ~[Chrome Extension](https://chrome.google.com/webstore/detail/global-poker-hand-history/mfafilnnjcmjfbpcnkjcddcnjcjopopa?hl=en)~
 Per the request of Global Poker, this extension has been removed from the web store.
 
+Pre reqs to install:
+- Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+- Node: https://nodejs.org/en/
+- Yarn: https://yarnpkg.com/lang/en/docs/install/#windows-stable
+
+
+
 - clone this repository `git clone https://github.com/mr-feek/global-poker-hand-history-converter-chrome-extension.git`
 - `cd global-poker-hand-history-converter-chrome-extension`
 - Install dependencies: `yarn install`

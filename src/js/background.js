@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     sendResponse({success: false, data});
                 }
             );
-        }, (error) => {
+        }, error => {
             sendResponse({success: false, message: error});
         });
     }

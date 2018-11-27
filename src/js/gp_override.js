@@ -1,6 +1,6 @@
 import $ from 'zepto';
 import bugsnagClient from './bugsnagClient';
-import flatpickr from "flatpickr";
+import flatpickr from 'flatpickr';
 
 (() => {
     const template = '\
@@ -18,30 +18,29 @@ import flatpickr from "flatpickr";
     let $logContainer;
     let $startTimeContainer;
 
-
     setInterval(() => {
         if ($('.converter-plugin-area').length > 0) {
             // We have already initialized
             return;
         }
         isHandHistoryMenu(initialize);
-
     }, 1000);
     function isHandHistoryMenu(callback) {
-      var buttons = $('.skin__table-row.skin__primary-button.active');
-      if (buttons.length > 0 && buttons.text().includes('Hand History')){
-        $('.skin__title').each(function(index , item){
-              let selector = $(item);
-              if (selector.text().includes('Hand Range')){
-                callback(selector.closest('.skin__cell').first());
-              }
-          });
-      }
-      return callback(undefined);
+        const buttons = $('.skin__table-row.skin__primary-button.active');
+        if (buttons.length > 0 && buttons.text().includes('Hand History')) {
+            $('.skin__title').each((index, item) => {
+                const selector = $(item);
+                if (selector.text().includes('Hand Range')) {
+                    callback(selector.closest('.skin__cell').first());
+                }
+            });
+        }
+        return callback(undefined);
     }
     function initialize(historyDateContainer) {
-
-        if (!historyDateContainer){return}
+        if (!historyDateContainer) {
+            return;
+        }
 
         historyDateContainer.after(template);
 

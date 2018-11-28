@@ -13,7 +13,7 @@
     "all_frames": true,
     "js": [ "gp_override.bundle.js" ],
     "css": ["dark.css"],
-    "matches": [ "https://public.globalpoker.com/*" ],
+    "matches": [ "https://*.globalpoker.com/*" ],
     "run_at": "document_end"
   } ],
   "icons": {

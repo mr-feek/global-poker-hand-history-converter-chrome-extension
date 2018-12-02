@@ -1,6 +1,6 @@
 {
   "name": "global-poker-hand-history-converter-chrome-extension",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "A chrome extension to fetch Global Poker hand histories and convert them to the Poker Stars format",
   "scripts": {
     "build": "webpack",

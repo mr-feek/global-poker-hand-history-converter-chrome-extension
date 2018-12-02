@@ -91,10 +91,15 @@ function getHands(session, playerId, hands, startTime, done) {
 }
 
 function updateStatus(message) {
-    port.postMessage({
-        action: 'hc.updateStatus',
-        message,
-    });
+    try {
+        port.postMessage({
+            action: 'hc.updateStatus',
+            message,
+        });
+    } catch (err) {
+        console.log('could not communicate with port');
+        console.log(JSON.stringify(err));
+    }
 }
 
 function initializePort() {
@@ -104,6 +109,12 @@ function initializePort() {
                 return reject();
             }
             port = window.chrome.tabs.connect(tabs[0].id);
+
+            port.onDisconnect.addListener(disconnectedPort => {
+                console.log('port disconnected. ' + JSON.stringify(disconnectedPort));
+                initializePort();
+            });
+
             return resolve(port);
         });
     });

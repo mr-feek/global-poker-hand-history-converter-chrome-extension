@@ -9,6 +9,7 @@ import bugsnagClient from './bugsnagClient';
 let session;
 let playerId;
 let port;
+const HANDS_TO_FETCH = 20;
 
 chrome.webRequest.onBeforeSendHeaders.addListener(details => {
     // Save these so that we can reuse them when issuing our own XHR
@@ -63,13 +64,12 @@ function fetchAndConvertHands(startTime, success, failure) {
 }
 
 function getHands(session, playerId, hands, startTime, done) {
-    const count = 20;
     const lastHand = hands[hands.length - 1];
 
     startTime = lastHand ? lastHand.startTime + 1 : startTime;
 
     const xhr = new XMLHttpRequest();
-    const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=${count}&startTime=${startTime}&descending=false&session=${session}&playerId=${playerId}&r=${Math.random()}`;
+    const url = `https://play.globalpoker.com/player-api/rest/player/handhistory/XSD?count=${HANDS_TO_FETCH}&startTime=${startTime}&descending=false&session=${session}&playerId=${playerId}&r=${Math.random()}`;
 
     xhr.open('GET', url, true);
 

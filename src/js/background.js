@@ -9,7 +9,7 @@ import bugsnagClient from './bugsnagClient';
 let session;
 let playerId;
 let port;
-const HANDS_TO_FETCH = 20;
+const HANDS_TO_FETCH = 1000;
 
 chrome.webRequest.onBeforeSendHeaders.addListener(details => {
     // Save these so that we can reuse them when issuing our own XHR
